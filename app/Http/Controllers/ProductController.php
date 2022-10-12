@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Unique;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -17,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render('Products/Index', [
-            'products' => Product::latest()->get()
+            'products' => Product::latest()->get(),
         ]);
     }
 
@@ -39,11 +38,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validated = $request->validate(rules: [
             'name' => 'required|string|max:255',
             'code' => 'required|max:255',
             'price' => 'required|numeric',
             'image' => 'required',
+        ], customAttributes: [
+            'name' => 'nome',
+            'code' => 'código',
+            'price' => 'preço',
+            'image' => 'imagem',
         ]);
 
         if ($request->file('image')->isValid()) {
@@ -82,7 +86,7 @@ class ProductController extends Controller
     {
         // return $product;
         return Inertia::render('Products/Edit', [
-            'product' => $product
+            'product' => $product,
         ]);
     }
 
@@ -95,12 +99,24 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $validated = $product->validate([
+        $validated = $request->validate(rules: [
             'name' => 'required|string|max:255',
             'code' => 'required|max:255',
             'price' => 'required|numeric',
-            'image' => 'required|string|max:255',
+        ], customAttributes: [
+            'name' => 'nome',
+            'code' => 'código',
+            'price' => 'preço',
         ]);
+
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $imageFile = $request->file('image');
+            $fileName = uniqid() . time() . "_{$imageFile->getClientOriginalName()}";
+            $storagedFile = $imageFile->storeAs('products', $fileName);
+        }
+
+        $validated['image'] = $storagedFile ?? $product->image;
 
         $product->update($validated);
 

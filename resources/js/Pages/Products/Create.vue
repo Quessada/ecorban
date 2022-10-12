@@ -90,8 +90,6 @@ const form = useForm({
           />
           <InputError class="mt-2" :message="form.errors.image" />
         </div>
-
-        <InputError :message="form.errors.message" class="mt-2" />
         <progress
           v-if="form.progress"
           :value="form.progress.percentage"

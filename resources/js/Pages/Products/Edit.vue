@@ -6,9 +6,7 @@ import { useForm } from "@inertiajs/inertia-vue3";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Product from "@/Components/Product.vue";
-import { defineProps, reactive, ref } from "vue";
-import { defineComponent } from "vue";
-import { useField } from "vee-validate";
+import { defineProps } from "vue";
 
 const props = defineProps(["product"]);
 console.log(props.product.id);
@@ -18,13 +16,16 @@ const form = useForm({
   name: props.product.name,
   code: props.product.code,
   price: props.product.price,
-  image: props.product.image,
+  image: "",
+  _method: "PUT",
 });
+
+const handleFileObject = (e) => {
+  form.image = e.target.files[0];
+};
 </script>
  
 <template>
-  <Head title="Products" />
-
   <AuthenticatedLayout>
     <div
       class="
@@ -45,13 +46,9 @@ const form = useForm({
       "
     >
       <form
-        @submit.prevent="
-          form.put(route('products.update', form.id), {
-            onSuccess: () => form.reset(),
-          })
-        "
+        @submit.prevent="form.post(route('products.update', props.product.id))"
       >
-        <input type="hidden" name="id" v-model="form.id" />
+        <input type="hidden" name="_method" value="PUT" />
         <div>
           <InputLabel for="name" value="Nome" />
           <TextInput
@@ -89,16 +86,25 @@ const form = useForm({
           <!-- <InputError class="mt-2" :message="form.errors.price" /> -->
         </div>
         <div class="mt-4">
+          <img
+            id="showImage"
+            v-if="product.image"
+            :src="`/storage/${product.image}`"
+            :alt="product.name"
+            class="h-15 w-20 object-cover"
+          />
+        </div>
+        <div class="mt-4">
           <InputLabel for="image" value="Imagem" />
           <TextInput
             id="image"
             type="file"
             class="mt-1 block w-full"
-            v-model="product.image"
-            required
             accept=".png, .jpg, .jpeg"
+            @input="form.image = $event.target.files[0]"
           />
-
+          <InputError class="mt-2" :message="form.errors.image" />
+        </div>
         <!-- <InputError class="mt-2" :message="form.errors.image" /> -->
         <!-- </div> -->
 
