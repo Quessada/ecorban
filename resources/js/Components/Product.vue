@@ -52,7 +52,14 @@ const deleteProduct = (id) => {
     <td class="px-6 py-4">{{ product.name }}</td>
     <td class="px-6 py-4">{{ product.code }}</td>
     <td class="px-6 py-4">{{ product.price }}</td>
-    <td class="px-6 py-4">{{ product.image }}</td>
+    <td class="px-6 py-4">
+      <img
+        v-if="product.image"
+        :src="`/storage/${product.image}`"
+        :alt="product.name"
+        class="h-15 w-50"
+      />
+    </td>
 
     <td class="px-6 py-4 text-right">
       <DropdownLink

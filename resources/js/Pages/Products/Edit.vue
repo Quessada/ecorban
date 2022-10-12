@@ -88,7 +88,7 @@ const form = useForm({
           />
           <!-- <InputError class="mt-2" :message="form.errors.price" /> -->
         </div>
-        <!-- <div class="mt-4">
+        <div class="mt-4">
           <InputLabel for="image" value="Imagem" />
           <TextInput
             id="image"
@@ -97,7 +97,7 @@ const form = useForm({
             v-model="product.image"
             required
             accept=".png, .jpg, .jpeg"
-          /> -->
+          />
 
         <!-- <InputError class="mt-2" :message="form.errors.image" /> -->
         <!-- </div> -->

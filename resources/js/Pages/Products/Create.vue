@@ -41,7 +41,9 @@ const form = useForm({
     >
       <form
         @submit.prevent="
-          form.post(route('products.store'), { onSuccess: () => form.reset() })
+          form.post(route('products.store'), {
+            onSuccess: () => form.reset(),
+          })
         "
       >
         <div>
@@ -51,7 +53,6 @@ const form = useForm({
             type="text"
             class="mt-1 block w-full"
             v-model="form.name"
-            required
             autofocus
           />
           <InputError class="mt-2" :message="form.errors.name" />
@@ -64,9 +65,8 @@ const form = useForm({
             type="text"
             class="mt-1 block w-full"
             v-model="form.code"
-            required
           />
-          <InputError class="mt-2" :message="form.errors.price" />
+          <InputError class="mt-2" :message="form.errors.code" />
         </div>
         <div class="mt-4">
           <InputLabel for="price" value="Preço" />
@@ -76,7 +76,6 @@ const form = useForm({
             class="mt-1 block w-full"
             v-model="form.price"
             v-mask="'#*'"
-            required
           />
           <InputError class="mt-2" :message="form.errors.price" />
         </div>
@@ -86,14 +85,20 @@ const form = useForm({
             id="image"
             type="file"
             class="mt-1 block w-full"
-            v-model="form.image"
-            required
             accept=".png, .jpg, .jpeg"
+            @input="form.image = $event.target.files[0]"
           />
           <InputError class="mt-2" :message="form.errors.image" />
         </div>
 
         <InputError :message="form.errors.message" class="mt-2" />
+        <progress
+          v-if="form.progress"
+          :value="form.progress.percentage"
+          max="100"
+        >
+          {{ form.progress.percentage }}%
+        </progress>
         <PrimaryButton class="mt-4">Criar</PrimaryButton>
       </form>
     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Unique;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -42,8 +43,18 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'code' => 'required|max:255',
             'price' => 'required|numeric',
-            'image' => 'required|string|max:255',
+            'image' => 'required',
         ]);
+
+        if ($request->file('image')->isValid()) {
+            $imageFile = $request->file('image');
+            $fileName = uniqid() . time() . "_{$imageFile->getClientOriginalName()}";
+            $storagedFile = $imageFile->storeAs('products', $fileName);
+
+            // return dd($storagedFile);
+        }
+
+        $validated['image'] = $storagedFile ?? '';
 
         $product = Product::create($validated);
 
