@@ -52,7 +52,7 @@ class ProductController extends Controller
 
         if ($request->file('image')->isValid()) {
             $imageFile = $request->file('image');
-            $fileName = uniqid() . time() . "_{$imageFile->getClientOriginalName()}";
+            $fileName = uniqid().time()."_{$imageFile->getClientOriginalName()}";
             $storagedFile = $imageFile->storeAs('products', $fileName);
 
             // return dd($storagedFile);
@@ -109,10 +109,9 @@ class ProductController extends Controller
             'price' => 'preço',
         ]);
 
-
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $imageFile = $request->file('image');
-            $fileName = uniqid() . time() . "_{$imageFile->getClientOriginalName()}";
+            $fileName = uniqid().time()."_{$imageFile->getClientOriginalName()}";
             $storagedFile = $imageFile->storeAs('products', $fileName);
         }
 
