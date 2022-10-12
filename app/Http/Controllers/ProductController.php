@@ -27,7 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Products/Create');
     }
 
     /**
@@ -40,7 +40,7 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'required|string|max:255',
+            'code' => 'required|max:255',
             'price' => 'required|numeric',
             'image' => 'required|string|max:255',
         ]);
@@ -69,7 +69,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        // return $product;
+        return Inertia::render('Products/Edit', [
+            'product' => $product
+        ]);
     }
 
     /**
@@ -81,7 +84,16 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $validated = $product->validate([
+            'name' => 'required|string|max:255',
+            'code' => 'required|max:255',
+            'price' => 'required|numeric',
+            'image' => 'required|string|max:255',
+        ]);
+
+        $product->update($validated);
+
+        return redirect(route('products.index'));
     }
 
     /**
@@ -90,8 +102,10 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        $product->delete();
     }
 }

@@ -31,13 +31,19 @@ const showingNavigationDropdown = ref(false);
                   :href="route('dashboard')"
                   :active="route().current('dashboard')"
                 >
-                  Dashboard
+                  Painel
                 </NavLink>
                 <NavLink
                   :href="route('products.index')"
                   :active="route().current('products.index')"
                 >
-                  Products
+                  Produtos
+                </NavLink>
+                <NavLink
+                  :href="route('products.create')"
+                  :active="route().current('produccts.create')"
+                >
+                  Criar Produtos
                 </NavLink>
               </div>
             </div>
@@ -93,7 +99,7 @@ const showingNavigationDropdown = ref(false);
                       method="post"
                       as="button"
                     >
-                      Log Out
+                      Sair
                     </DropdownLink>
                   </template>
                 </Dropdown>
