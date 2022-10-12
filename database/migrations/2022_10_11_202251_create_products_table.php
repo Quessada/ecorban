@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('code')->nullable();
-            $table->float('price')->nullable();
+            $table->bigInteger('price')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
         });

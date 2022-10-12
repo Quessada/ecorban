@@ -7,6 +7,8 @@ import DropdownLink from "@/Components/DropdownLink.vue";
 import { useForm, Head } from "@inertiajs/inertia-vue3";
 import { Link } from "@inertiajs/inertia-vue3";
 
+import { formatCurrency } from "@brazilian-utils/brazilian-utils";
+
 const form = useForm({
   id: "",
   name: "",
@@ -55,7 +57,7 @@ const deleteProduct = (id) => {
   >
     <td class="px-6 py-4">{{ product.name }}</td>
     <td class="px-6 py-4">{{ product.code }}</td>
-    <td class="px-6 py-4">{{ product.price }}</td>
+    <td class="px-6 py-4">{{ formatCurrency(product.price / 100) }}</td>
     <td class="px-6 py-4">
       <img
         v-if="product.image"

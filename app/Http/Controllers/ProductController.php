@@ -41,7 +41,7 @@ class ProductController extends Controller
         $validated = $request->validate(rules: [
             'name' => 'required|string|max:255',
             'code' => 'required|max:255',
-            'price' => 'required|numeric',
+            'price' => 'required',
             'image' => 'required',
         ], customAttributes: [
             'name' => 'nome',
@@ -50,6 +50,7 @@ class ProductController extends Controller
             'image' => 'imagem',
         ]);
 
+        $validated['price'] = str($validated['price'])->replace(',', '')->toInteger();
         if ($request->file('image')->isValid()) {
             $imageFile = $request->file('image');
             $fileName = uniqid().time()."_{$imageFile->getClientOriginalName()}";
@@ -102,12 +103,14 @@ class ProductController extends Controller
         $validated = $request->validate(rules: [
             'name' => 'required|string|max:255',
             'code' => 'required|max:255',
-            'price' => 'required|numeric',
+            'price' => 'required',
         ], customAttributes: [
             'name' => 'nome',
             'code' => 'código',
             'price' => 'preço',
         ]);
+
+        $validated['price'] = str($validated['price'])->replace(',', '')->toInteger();
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $imageFile = $request->file('image');

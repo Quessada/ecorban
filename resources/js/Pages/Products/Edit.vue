@@ -11,6 +11,20 @@ import { defineProps } from "vue";
 const props = defineProps(["product"]);
 console.log(props.product.id);
 
+const config = {
+  prefix: "",
+  suffix: "",
+  thousands: ",",
+  decimal: ".",
+  precision: 2,
+  disableNegative: false,
+  disabled: false,
+  min: null,
+  max: null,
+  allowBlank: false,
+  minimumNumberOfCharacters: 0,
+};
+
 const form = useForm({
   id: props.product.id,
   name: props.product.name,
@@ -80,7 +94,7 @@ const handleFileObject = (e) => {
             type="text"
             class="mt-1 block w-full"
             v-model="form.price"
-            v-mask="'#*'"
+            mask="currency"
             required
           />
           <!-- <InputError class="mt-2" :message="form.errors.price" /> -->
