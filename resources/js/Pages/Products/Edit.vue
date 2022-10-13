@@ -9,21 +9,6 @@ import Product from "@/Components/Product.vue";
 import { defineProps } from "vue";
 
 const props = defineProps(["product"]);
-console.log(props.product.id);
-
-const config = {
-  prefix: "",
-  suffix: "",
-  thousands: ",",
-  decimal: ".",
-  precision: 2,
-  disableNegative: false,
-  disabled: false,
-  min: null,
-  max: null,
-  allowBlank: false,
-  minimumNumberOfCharacters: 0,
-};
 
 const form = useForm({
   id: props.product.id,
